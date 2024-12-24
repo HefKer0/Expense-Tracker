@@ -1,9 +1,28 @@
 import argparse
+import datetime
+
+
+def write_time():
+    with open("database.txt", "a") as f:
+        today = datetime.datetime.now()
+        date = today.strftime("%x")
+        f.write(f"{date}")
 
 
 def cmd_add(description, amount):
     print(description)
     print(amount)
+    lines = ''
+
+    with open("database.txt", "r") as f:
+        lines = f.readlines()
+
+    with open("database.txt", "a") as f:
+        f.write(f"\n")
+        # write id
+        write_time() # move write_time here
+        # Write Description
+        # Write Amount
     pass
 
 
@@ -64,12 +83,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-"""
-with open("database.txt", "a") as f:
-    today = datetime.datetime.now()
-    todaysdate = today.strftime("%x")
-    todaystime = today.strftime("%X")
-    f.write(f"\nstonks {todaysdate} {todaystime} {income}")
-
-"""
