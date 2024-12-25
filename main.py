@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import helper
 
 
 def write_time():
@@ -14,10 +15,11 @@ def cmd_add(description, amount):
     print(amount)
     lines = ''
 
-    with open("database.txt", "r") as f:
-        lines = f.readlines()
 
-    with open("database.txt", "a") as f:
+    file = "example.txt"
+    last_line = helper.read_last_line(file)
+
+    with open(file, "a") as f:
         f.write(f"\n")
         # write id
         write_time() # move write_time here
@@ -45,6 +47,8 @@ def cmd_delete(expense_id):
 
 
 def main():
+    helper.file_checker()
+
     parser = argparse.ArgumentParser(description="Track your expenses!")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
