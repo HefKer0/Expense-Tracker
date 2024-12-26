@@ -1,4 +1,12 @@
-def read_last_line(filename):
+import re
+
+
+def find_character_positions(input_string: str, target_characters: str):
+    positions = [index for index, char in enumerate(input_string) if char in target_characters]
+    return positions
+
+
+def read_last_line(filename: str):
     with open(filename, "rb") as file:
         file.seek(-2, 2)
         while file.read(1) != b"\n":
@@ -7,8 +15,22 @@ def read_last_line(filename):
     return last_line.strip()
 
 
-def line_parser(filename, line, mode):
-    pass
+def line_parser(line, mode):
+    expense_id = 0
+    expense_date = ""
+    expense_description = ""
+    expense_amount = 0
+
+    spaces = find_character_positions(line, " ")
+    items = []
+
+    # Detect sequence
+    previous_char = None
+
+    for index, current_char in enumerate(spaces):
+        if previous_char == current_char:
+
+        previous_char = current_char
 
 
 def line_constructor():
@@ -47,3 +69,5 @@ Date:
 Desc:
 Amount:
 """
+
+
