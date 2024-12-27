@@ -15,22 +15,31 @@ def read_last_line(filename: str):
     return last_line.strip()
 
 
-def line_parser(line, mode):
-    expense_id = 0
-    expense_date = ""
-    expense_description = ""
-    expense_amount = 0
+def line_parser(line):
+    items = [] # Stores string indexes of values != spaces
 
-    spaces = find_character_positions(line, " ")
-    items = []
+    for index, current_value in enumerate(line):
+        if current_value != " ":
+            items.append(index)
 
-    # Detect sequence
-    previous_char = None
+    previous_value = None
+    sequence = False
 
-    for index, current_char in enumerate(spaces):
-        if previous_char == current_char:
+    string_starts = []
+    string_ends = []
 
-        previous_char = current_char
+    for index, current_value in enumerate(items):
+        if previous_value == current_value - 1:
+            if sequence is False:
+                string_starts.append(current_value)
+            sequence = True
+        else:
+            sequence = False
+        previous_value = current_value
+
+
+        string_ends.append(current_value)
+
 
 
 def line_constructor():
@@ -42,32 +51,4 @@ def file_checker():
     pass
 
 
-expense = {
-    "ID": 2,
-    "Date": "2024-08-06",
-    "Description": "Dinner",
-    "Amount": "$10"
-}
-print(expense["ID"])
-
-expense_id = 2
-
-expense = {
-    "ID": expense_id,
-    "Date": expense_date,
-    "Description": expense_description,
-    "Amount": expense_amount
-}
-# ID  Date       Description  Amount
-# 2   2024-08-06  Dinner       $10
-
-"""
-by pos (begins at)
-#:
-ID:
-Date:
-Desc:
-Amount:
-"""
-
-
+line_parser("# 2   2024-08-06  Dinner       $10")
