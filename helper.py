@@ -1,3 +1,6 @@
+from operator import invert
+
+
 def find_character_positions(input_string: str, target_characters: str):
     positions = [index for index, char in enumerate(input_string) if char in target_characters]
     return positions
@@ -13,36 +16,21 @@ def read_last_line(filename: str):
 
 
 def line_parser(line):
-    items = []  # Stores string indexes of values != spaces
+    line_list = list(line)
+    del_list = []
+    change = None
+    # Run until no changes are made?
 
-    for index, current_value in enumerate(line):
-        if current_value != " ":
-            items.append(index)
+    for index, value in enumerate(line_list):
+        if value == " " and line_list[index - 1] == ",":
+            del_list.append(index)
+        elif value == " ":
+            line_list[index] = ","
 
-    previous_value = None
-    sequence = None
-    previously = None
+    for x in reversed(del_list):
+        del line_list[x]
 
-    string_starts = []
-    string_ends = []
-
-    for index, current_value in enumerate(items):
-        if previous_value == current_value - 1:
-            if sequence is not True:
-                string_starts.append(current_value)
-            sequence = True
-        elif sequence is False and previously is True:  #
-            print(f"No sequence and previously true at value: {current_value}")  #
-        else:
-            previously = sequence  #
-            sequence = False
-        previous_value = current_value
-
-
-        string_ends.append(current_value)
-
-
-
+    for x in
 
 
 def line_constructor():
