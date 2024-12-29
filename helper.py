@@ -1,6 +1,3 @@
-import re
-
-
 def find_character_positions(input_string: str, target_characters: str):
     positions = [index for index, char in enumerate(input_string) if char in target_characters]
     return positions
@@ -16,29 +13,35 @@ def read_last_line(filename: str):
 
 
 def line_parser(line):
-    items = [] # Stores string indexes of values != spaces
+    items = []  # Stores string indexes of values != spaces
 
     for index, current_value in enumerate(line):
         if current_value != " ":
             items.append(index)
 
     previous_value = None
-    sequence = False
+    sequence = None
+    previously = None
 
     string_starts = []
     string_ends = []
 
     for index, current_value in enumerate(items):
         if previous_value == current_value - 1:
-            if sequence is False:
+            if sequence is not True:
                 string_starts.append(current_value)
             sequence = True
+        elif sequence is False and previously is True:  #
+            print(f"No sequence and previously true at value: {current_value}")  #
         else:
+            previously = sequence  #
             sequence = False
         previous_value = current_value
 
 
         string_ends.append(current_value)
+
+
 
 
 
