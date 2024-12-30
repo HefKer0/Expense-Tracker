@@ -17,20 +17,19 @@ def read_last_line(filename: str):
 
 def line_parser(line):
     line_list = list(line)
-    del_list = []
-    change = None
-    # Run until no changes are made?
-
-    for index, value in enumerate(line_list):
-        if value == " " and line_list[index - 1] == ",":
-            del_list.append(index)
-        elif value == " ":
-            line_list[index] = ","
-
-    for x in reversed(del_list):
-        del line_list[x]
-
-    for x in
+    start_index = 0
+    index = start_index
+    finished = False
+    while not finished:
+        while index < len(line_list):
+            if line_list[index] == " " and line_list[index - 1] == ",":
+                del line_list[index]
+                break
+            elif line_list[index] == " ":
+                line_list[index] = ","
+            index += 1
+            if index == len(line_list):
+                finished = True
 
 
 def line_constructor():
