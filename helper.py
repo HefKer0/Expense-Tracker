@@ -1,3 +1,6 @@
+import os
+
+
 def find_character_positions(input_string: str, target_characters: str):
     positions = [index for index, char in enumerate(input_string) if char in target_characters]
     return positions
@@ -29,8 +32,19 @@ def line_parser(line):
             if index == len(line_list):
                 finished = True
 
-    ###
+    # Return id
+    start_index = 2
+    index = start_index
+    finished = False
+    expense_id = []
+    while not finished:
+        if line_list[index] == ",":
+            finished = True
+        else:
+            expense_id.append(line_list[index])
+        index += 1
 
+    return "".join(expense_id)
 
 def line_constructor(e_id, date, description, amount):
     line = ['#', ' ']
@@ -58,7 +72,8 @@ def line_constructor(e_id, date, description, amount):
 
 def file_checker():
     # Check if file exists, if not then create one and append 1st line
-    pass
-
-
-# line_parser("# 2   2024-08-06  Dinner       $10")
+    if os.path.exists("database.txt"):
+        pass
+    else:
+        with open("database.txt", "a") as f:
+            f.write("# ID  Date       Description  Amount")
