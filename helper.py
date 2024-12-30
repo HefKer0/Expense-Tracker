@@ -1,6 +1,3 @@
-from operator import invert
-
-
 def find_character_positions(input_string: str, target_characters: str):
     positions = [index for index, char in enumerate(input_string) if char in target_characters]
     return positions
@@ -17,6 +14,7 @@ def read_last_line(filename: str):
 
 def line_parser(line):
     line_list = list(line)
+
     start_index = 0
     index = start_index
     finished = False
@@ -31,14 +29,36 @@ def line_parser(line):
             if index == len(line_list):
                 finished = True
 
+    ###
 
-def line_constructor():
-    pass
 
+def line_constructor(e_id, date, description, amount):
+    line = ['#', ' ']
+    def appender(iterable):
+        for x in iterable:
+            line.append(x)
+
+    def length_checker(length: int):
+        while len(line) < length:
+            line.append(" ")
+
+    appender(e_id)
+    length_checker(6)
+    appender(date)
+    length_checker(18) #
+    appender(description)
+    length_checker(31)
+    line.append("$")
+    appender(amount)
+
+    with open("database.txt", "a") as f:
+        f.write("\n")
+        for x in line:
+            f.write(x)
 
 def file_checker():
     # Check if file exists, if not then create one and append 1st line
     pass
 
 
-line_parser("# 2   2024-08-06  Dinner       $10")
+# line_parser("# 2   2024-08-06  Dinner       $10")
