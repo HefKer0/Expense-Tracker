@@ -10,8 +10,8 @@ def cmd_add(description, amount):
 
 
 def cmd_list():
-    print("list")
-    pass
+    with open(file, "r") as f:
+        print(f.read())
 
 
 def cmd_summary(month):
