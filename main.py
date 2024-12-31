@@ -1,31 +1,12 @@
 import argparse
-import datetime
 import helper
-
-
-def write_time():
-    with open("database.txt", "a") as f:
-        today = datetime.datetime.now()
-        date = today.strftime("%x")
-        f.write(f"{date}")
+from datetime import date
 
 
 def cmd_add(description, amount):
-    print(description)
-    print(amount)
-    lines = ''
-
-
-    file = "example.txt"
     last_line = helper.read_last_line(file)
-
-    with open(file, "a") as f:
-        f.write(f"\n")
-        # write id
-        write_time() # move write_time here
-        # Write Description
-        # Write Amount
-    pass
+    last_id = helper.line_parser(last_line)
+    helper.line_constructor(str(last_id + 1), str(date.today()), description, str(amount))
 
 
 def cmd_list():
@@ -84,6 +65,8 @@ def main():
     else:
         parser.print_help()
 
+
+file = "database.txt"
 
 if __name__ == "__main__":
     main()

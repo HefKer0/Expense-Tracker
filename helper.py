@@ -38,10 +38,10 @@ def line_parser(line):
             expense_id.append(line_list[index])
         index += 1
 
-    return "".join(expense_id)
+    return int("".join(expense_id))
 
 
-def line_constructor(e_id, date, description, amount):
+def line_constructor(e_id: str, date: str, description: str, amount: str):
     line = ['#', ' ']
     def appender(iterable):
         for z in iterable:
