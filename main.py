@@ -3,9 +3,15 @@ import helper
 from datetime import date
 
 
+def line_parser(line: str):
+    value_list = line.split()
+    return value_list
+
+
 def cmd_add(description, amount):
     last_line = helper.read_last_line(file)
-    last_id = helper.line_parser(last_line)
+    value_list = line_parser(last_line)
+    last_id = int(value_list[1])
     helper.line_constructor(str(last_id + 1), str(date.today()), description, str(amount))
 
 
@@ -18,8 +24,7 @@ def cmd_summary(month):
     if month is True:
         print(month)
     else:
-        print("Summary")
-    pass
+        print("Total expenses: $")
 
 
 def cmd_delete(expense_id):
