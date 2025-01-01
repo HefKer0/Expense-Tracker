@@ -24,7 +24,17 @@ def cmd_summary(month):
     if month is True:
         print(month)
     else:
-        print("Total expenses: $")
+        expenses = 0.0
+        with open("database.txt", "r") as f:
+            for x in f:
+                if "Date" in x:
+                    pass
+                else:
+                    value_list = line_parser(x)
+                    amount = float(value_list[4][1:-2])
+                    expenses += amount
+
+        print(f"Total expenses: ${expenses}")
 
 
 def cmd_delete(expense_id):
