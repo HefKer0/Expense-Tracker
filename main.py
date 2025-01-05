@@ -21,8 +21,62 @@ def cmd_list():
 
 
 def cmd_summary(month):
-    if month is True:
-        print(month)
+    if month:
+        month_to_number = {
+            "January": "01",
+            "February": "02",
+            "March": "03",
+            "April": "04",
+            "May": "05",
+            "June": "06",
+            "July": "07",
+            "August": "08",
+            "September": "09",
+            "October": "10",
+            "November": "11",
+            "December": "12",
+        }
+        try:
+            month_number = int(month)
+        except ValueError:
+            # month = "january" month_number = ?
+            # get the month_number using "january"
+            month = month.capitalize()
+            month_number = month_to_number.get(month, "Invalid month")
+            print(month_number)
+        else:
+            """ 
+            month = "1" or "01" month_number = 1 or 01
+            if month == "1" add a 0 before
+            get name of the month "January"
+            """
+            month_number_list = list(month)
+
+            if len(month_number_list) < 2:
+                month_number_list.append(0)
+                month_number_list.reverse()
+                month_number = int("".join(map(str, month_number_list)))
+        finally:
+            expenses = 0.0
+
+            with open("database.txt", "r") as f:
+                for x in f:
+                    if "Date" in x:
+                        pass
+                    elif x[11:13] == month:
+                        value_list = line_parser(x)
+                        amount = float(value_list[4][1:-2])
+                        expenses += amount
+
+            print(f"Total expenses for {month}: ${expenses}")
+
+
+
+
+
+
+
+
     else:
         expenses = 0.0
         with open("database.txt", "r") as f:
@@ -33,8 +87,7 @@ def cmd_summary(month):
                     value_list = line_parser(x)
                     amount = float(value_list[4][1:-2])
                     expenses += amount
-
-        print(f"Total expenses: ${expenses}")
+        print(f"Total expenses: ${expenses:.2f}")
 
 
 def cmd_delete(expense_id):
@@ -46,29 +99,29 @@ def main():
     helper.file_checker()
 
     parser = argparse.ArgumentParser(description="Track your expenses!")
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+    subparsers = parser.add_subparsers(dest="command", description="Available commands")
 
     # Add
-    add_parser = subparsers.add_parser("add", help="Add a new expense")
-    add_parser.add_argument("--description", required=True, type=str, help="Description of the expense")  # L
-    add_parser.add_argument("--amount", required=True, type=float, help="Amount of the expense")
+    parser_add = subparsers.add_parser("add", help="Add a new expense")
+    parser_add.add_argument("--description", "-d", required=True, type=str,
+                            help="Description of the expense")
+    parser_add.add_argument("--amount", "-a", required=True, type=float,
+                            help="Amount of the expense")
 
     # List
-    list_parser = subparsers.add_parser("list", help="List all expenses")
+    parser_list = subparsers.add_parser("list", help="List all expenses")
 
     # Summary
-    summary_parser = subparsers.add_parser("summary", help="Show a summary of expenses")
-    summary_parser.add_argument("--month", required=False, type=str,
+    parser_summary = subparsers.add_parser("summary", help="Show a summary of expenses")
+    parser_summary.add_argument("--month", "-m", required=False, type=str,
                                 help="Filter summary by month (e.g. '1' or 'January')")
-
     # Delete
-    delete_parser = subparsers.add_parser("delete", help="Delete an expense using its id")
-    delete_parser.add_argument("id", type=int, help="id of the expense you want to delete")
+    parser_delete = subparsers.add_parser("delete", help="Delete an expense by its id")
+    parser_delete.add_argument("id", type=int, help="id of the expense you want to delete")
 
-    # Parse
+    # Processing
     args = parser.parse_args()
 
-    # Route
     if args.command == "add":
         cmd_add(args.description, args.amount)
     elif args.command == "list":
