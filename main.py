@@ -37,13 +37,12 @@ def cmd_summary(month):
             "December": "12",
         }
         try:
-            month_number = int(month)
+            int(month)
         except ValueError:
-            # month = "january" month_number = ?
+            # month == "january" month_number = ?
             # get the month_number using "january"
             month = month.capitalize()
             month_number = month_to_number.get(month, "Invalid month")
-            print(month_number)
         else:
             """ 
             month = "1" or "01" month_number = 1 or 01
@@ -51,11 +50,17 @@ def cmd_summary(month):
             get name of the month "January"
             """
             month_number_list = list(month)
-
             if len(month_number_list) < 2:
                 month_number_list.append(0)
                 month_number_list.reverse()
-                month_number = int("".join(map(str, month_number_list)))
+                month_number = "".join(map(str, month_number_list))
+            else:
+                month_number = month
+
+            for k, v in month_to_number.items():
+                if v == month_number:
+                    month = k
+                    break
         finally:
             expenses = 0.0
 
@@ -63,7 +68,7 @@ def cmd_summary(month):
                 for x in f:
                     if "Date" in x:
                         pass
-                    elif x[11:13] == month:
+                    elif x[11:13] == month_number:
                         value_list = line_parser(x)
                         amount = float(value_list[4][1:-2])
                         expenses += amount
