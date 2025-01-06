@@ -1,4 +1,5 @@
 import os
+from datetime import date
 
 def read_last_line(filename: str):
     with open(filename, "rb") as file:
@@ -9,7 +10,7 @@ def read_last_line(filename: str):
     return last_line.strip()
 
 
-def line_constructor(e_id: str, date: str, description: str, amount: str):
+def line_constructor(e_id: str, e_date: str, description: str, amount: str):
     line = ['#', ' ']
     def appender(iterable):
         for z in iterable:
@@ -21,7 +22,7 @@ def line_constructor(e_id: str, date: str, description: str, amount: str):
 
     appender(e_id)
     length_extender(6)
-    appender(date)
+    appender(e_date)
     length_extender(18) #
     appender(description)
     length_extender(31)

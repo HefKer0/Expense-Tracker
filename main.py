@@ -9,9 +9,15 @@ def line_parser(line: str):
 
 
 def cmd_add(description, amount):
-    last_line = helper.read_last_line(file)
+    try:
+        last_line = helper.read_last_line(file)
+    except OSError:
+        last_line = "# ID  Date       Description  Amount"
     value_list = line_parser(last_line)
-    last_id = int(value_list[1])
+    if value_list[1] == "ID":
+        last_id = 0
+    else:
+        last_id = int(value_list[1])
     helper.line_constructor(str(last_id + 1), str(date.today()), description, str(amount))
 
 
@@ -120,7 +126,7 @@ def main():
                             help="Amount of the expense")
 
     # List
-    parser_list = subparsers.add_parser("list", help="List all expenses")
+    subparsers.add_parser("list", help="List all expenses")
 
     # Summary
     parser_summary = subparsers.add_parser("summary", help="Show a summary of expenses")
