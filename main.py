@@ -36,11 +36,14 @@ def cmd_summary(month):
             "November": "11",
             "December": "12",
         }
+        month_number = None
         try:
             int(month)
         except ValueError:
-            # month == "january" month_number = ?
-            # get the month_number using "january"
+            """
+            month == "january" month_number = ?
+            get the month_number using "january"
+            """
             month = month.capitalize()
             month_number = month_to_number.get(month, "Invalid month")
         else:
@@ -64,7 +67,7 @@ def cmd_summary(month):
         finally:
             expenses = 0.0
 
-            with open("database.txt", "r") as f:
+            with open(file, "r") as f:
                 for x in f:
                     if "Date" in x:
                         pass
@@ -74,17 +77,9 @@ def cmd_summary(month):
                         expenses += amount
 
             print(f"Total expenses for {month}: ${expenses}")
-
-
-
-
-
-
-
-
     else:
         expenses = 0.0
-        with open("database.txt", "r") as f:
+        with open(file, "r") as f:
             for x in f:
                 if "Date" in x:
                     pass
@@ -96,8 +91,19 @@ def cmd_summary(month):
 
 
 def cmd_delete(expense_id):
-    print(expense_id)
-    pass
+    with open(file, "r") as f:
+        lines = f.readlines()
+
+    for index, line in enumerate(lines):
+        if line[2:5].strip() == str(expense_id):
+            del lines[index]
+            break
+
+    with open(file, "w") as f:
+        for line in lines:
+            f.write(line)
+
+    print("Expense deleted successfully")
 
 
 def main():
@@ -122,7 +128,7 @@ def main():
                                 help="Filter summary by month (e.g. '1' or 'January')")
     # Delete
     parser_delete = subparsers.add_parser("delete", help="Delete an expense by its id")
-    parser_delete.add_argument("id", type=int, help="id of the expense you want to delete")
+    parser_delete.add_argument("--id", "-id", type=int, help="id of the expense you want to delete")
 
     # Processing
     args = parser.parse_args()
